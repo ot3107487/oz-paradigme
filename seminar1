@@ -1,0 +1,32 @@
+declare
+fun {Abs X}
+   if {Int.is X} == true then
+      if X>0 then X else ~X end
+   else
+      if X>0.0 then X else ~X end
+   end
+end
+declare
+Y = ~22.1
+{Browse {Abs Y}}
+
+declare
+fun {Pow N M}
+   if M == 0 then 1
+   else
+      N * {Pow N M-1}
+   end
+end
+{Browse {Pow 3 2}}
+
+declare
+fun {MaxRec N M}
+   if N == 0 then M
+   else
+      if M == 0 then N
+      else
+	 1 + {MaxRec N-1 M-1} end
+   end
+end
+
+{Browse {MaxRec ~4 ~5}}
