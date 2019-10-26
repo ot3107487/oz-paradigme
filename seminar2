@@ -1,0 +1,45 @@
+declare
+fun {RangeTimes A B}
+   if B == A then A
+   else
+      B * {RangeTimes A B-1}
+   end
+end
+
+
+declare
+fun {Comb N K}
+   if K == 0 then 1
+   else
+      {RangeTimes N-K+1 N} div {RangeTimes 1 K}
+   end
+end
+
+
+declare
+fun {NComb N K}
+   if K == 0.0 then 1.0
+   else
+      (N-K+1.0) / K * {NComb N K-1.0}
+   end
+end
+
+declare
+fun {Combi N K}
+   if {Int.is N} then
+      if {Int.is K} then
+	 {NComb {Int.toFloat N} {Int.toFloat K}}
+      else
+	 {NComb {Int.toFloat N} K}
+      end
+   else
+      if {Int.is K} then
+	 {NComb N {Int.toFloat K}}
+      else
+	 {NComb N K}
+      end
+   end
+end
+
+
+{Browse {Combi 50 12}}
