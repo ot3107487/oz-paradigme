@@ -1,0 +1,106 @@
+%1
+declare
+fun {Member Xs Y}
+   case Xs
+   of X|Xr then
+      if X == Y then true
+      else {Member Xr Y} end
+   [] nil then false
+   end
+end
+
+{Browse {Member [a b c] b}}
+{Browse {Member [a b c] d}}
+%2
+declare
+fun {Take Xs N}
+   case Xs of
+      X|Xr then
+      if N == 0 then nil
+      else (X | {Take Xr N-1}) end
+   [] nil then nil
+   end
+   
+end
+
+{Browse {Take [1 4 3 6 2] 3}}
+
+declare
+fun {Drop Xs N}
+   if N == 0 then Xs
+   else
+      
+   case Xs of
+      X|Xr then
+      if N == 1 then Xr
+      else {Drop Xr N-1} end
+   [] nil then nil
+   [] X then Xs
+   end
+   end
+
+end
+
+{Browse {Drop [1 4 3 6 2] 3}}
+%3
+declare
+fun {Zip Pairs}
+   case Pairs of
+      Xs#Ys then
+      case Xs of X|Xr then
+	 case Ys of Y|Yr then
+	    (X#Y | {Zip Xr#Yr})
+	 [] nil then nil
+	 end
+      [] nil then nil
+      end
+   [] nil then nil
+   end
+end
+{Browse {Zip [a b c d]#[1 2 3 4]}}
+
+declare
+fun {BuildList List Left}
+   case List of
+      H|T then
+      case H of
+	 X#Y then
+	 if Left == true then (X | {BuildList T Left})
+	 else (Y | {BuildList T Left})
+	 end
+   [] nil then nil end
+   [] nil then nil end
+end
+
+declare
+fun {UnZip List}
+   ({BuildList List true}#{BuildList List false})
+end
+
+{Browse {UnZip [a#1 b#2 c#3]}}
+
+%4
+declare
+fun {Position Xs Y}
+%   if {Member Xs Y} == true then
+   case Xs of H|T then
+      if H == Y then 1
+      else
+	 1 + {Position T Y} end
+   [] nil then 0 end
+%   else 0 end
+end
+
+{Browse {Position [a b c] d}}
+
+%5
+declare
+fun {Eval E}
+   case E of
+      int(N) then N
+   [] add(X Y) then {Eval X} + {Eval Y}
+   [] mul(X Y) then {Eval X} * {Eval Y}
+   end
+end
+
+{Browse {Eval add(int(1) mul(int(3) int(4)))}}
